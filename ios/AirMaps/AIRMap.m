@@ -417,6 +417,10 @@ const NSInteger AIRMapMaxZoomLevel = 20;
     [super setCamera:camera animated:animated];
 }
 
+- (void)setUserTrackingMode:(MKUserTrackingMode)userTrackingMode
+{
+    [super setUserTrackingMode:userTrackingMode];
+}
 
 - (void)setInitialCamera:(MKMapCamera*)initialCamera {
     if (!_initialCameraSet) {

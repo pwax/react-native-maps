@@ -184,6 +184,12 @@ export type Address = {
   subThoroughfare?: string;
 };
 
+export enum UserTrackingMode {
+  none,
+  follow,
+  followWithHeading,
+}
+
 export type NativeCommandName =
   | 'animateCamera'
   | 'animateToRegion'
@@ -199,4 +205,5 @@ export type NativeCommandName =
   | 'setCamera'
   | 'setIndoorActiveLevelIndex'
   | 'setMapBoundaries'
-  | 'takeSnapshot';
+  | 'takeSnapshot'
+  | 'setUserTrackingMode';

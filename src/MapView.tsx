@@ -53,6 +53,7 @@ import {
   PoiClickEvent,
   SnapshotOptions,
   UserLocationChangeEvent,
+  UserTrackingMode,
 } from './MapView.types';
 import {Modify} from './sharedTypesInternal';
 import {Commands, MapViewNativeComponentType} from './MapViewNativeComponent';
@@ -114,6 +115,14 @@ export type MapViewProps = ViewProps & {
    * @platform Android: Not supported
    */
   followsUserLocation?: boolean;
+
+  /**
+   * When set, the map will exhibit default behavior, follow the user, or follow the user with their heading.
+   * @default {UserTrackingMode.none}
+   * @platform iOS: Apple Maps only
+   * @platform Android: Not supported
+   */
+  userTrackingMode?: UserTrackingMode;
 
   /**
    * The initial camera view the map should use.  Use this prop instead of `camera`
@@ -433,6 +442,13 @@ export type MapViewProps = ViewProps & {
    * @platform Android: Supported
    */
   onUserLocationChange?: (event: UserLocationChangeEvent) => void;
+
+  /**
+   * Callback that is called when user tracking mode changes.
+   * @platform iOS: Apple Maps only
+   * @platform Android: Not supported
+   */
+  onUserTrackingModeChange?: (event: UserTrackingMode) => void;
 
   /**
    * Indicates how/when to affect padding with safe area insets
@@ -1013,6 +1029,13 @@ class MapView extends React.Component<MapViewProps, State> {
         longitude: region.longitude - region.longitudeDelta / 2,
       },
     };
+  }
+
+  /** */
+  setUserTrackingMode(trackingMode: UserTrackingMode) {
+    if (this.map.current) {
+      Commands.setUserTrackingMode(this.map.current, trackingMode);
+    }
   }
 
   private _mapManagerCommand(name: NativeCommandName) {
