@@ -124,6 +124,7 @@ RCT_EXPORT_VIEW_PROPERTY(onMarkerDrag, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onMarkerDragEnd, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onCalloutPress, RCTDirectEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserLocationChange, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(userTrackingMode, NSInteger)
 RCT_CUSTOM_VIEW_PROPERTY(initialRegion, MKCoordinateRegion, AIRMap)
 {
     if (json == nil) return;
@@ -288,6 +289,19 @@ RCT_EXPORT_METHOD(animateToRegion:(nonnull NSNumber *)reactTag
             [AIRMap animateWithDuration:duration/1000 animations:^{
                 [(AIRMap *)view setRegion:region animated:YES];
             }];
+        }
+    }];
+}
+
+RCT_EXPORT_METHOD(setUserTrackingMode:(nonnull NSNumber *)reactTag withUserTrackingMode:(NSInteger *)mode)
+{
+    [self.bridge.uiManager addUIBlock:^(__unused RCTUIManager *uiManager, NSDictionary<NSNumber *, UIView *> *viewRegistry) {
+        id view = viewRegistry[reactTag];
+        if (![view isKindOfClass:[AIRMap class]]) {
+            RCTLogError(@"Invalid view returned from registry, expecting AIRMap, got: %@", view);
+        } else {
+            AIRMap *mapView = (AIRMap *)view;
+            [mapView setUserTrackingMode:mode animated:true];
         }
     }];
 }

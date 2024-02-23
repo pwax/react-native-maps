@@ -56,7 +56,7 @@ class UserTrackingModes extends React.Component<any, any> {
   }
 
   setUserTrackingMode(mode: UserTrackingMode) {
-    this.map.setUserTrackingMode(mode);
+    this.setState({userTrackingMode: mode});
   }
 
   render() {
@@ -65,6 +65,8 @@ class UserTrackingModes extends React.Component<any, any> {
       <View style={styles.container}>
         <MapView
           provider={this.props.provider}
+          followsUserLocation={true}
+          userTrackingMode={this.state.userTrackingMode}
           ref={ref => {
             this.map = ref;
           }}
@@ -72,17 +74,19 @@ class UserTrackingModes extends React.Component<any, any> {
           initialRegion={region}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => this.setUserTrackingMode(UserTrackingMode.none)}
               style={[styles.bubble, styles.button]}>
               <Text>None</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() => this.setUserTrackingMode(UserTrackingMode.follow)}
               style={[styles.bubble, styles.button]}>
               <Text>Follow</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => {}}
+              onPress={() =>
+                this.setUserTrackingMode(UserTrackingMode.followWithHeading)
+              }
               style={[styles.bubble, styles.button]}>
               <Text>Follow heading</Text>
             </TouchableOpacity>

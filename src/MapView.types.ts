@@ -185,9 +185,9 @@ export type Address = {
 };
 
 export enum UserTrackingMode {
-  none,
-  follow,
-  followWithHeading,
+  none = 0,
+  follow = 1,
+  followWithHeading = 2,
 }
 
 export type NativeCommandName =
